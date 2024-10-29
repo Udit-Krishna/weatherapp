@@ -1,0 +1,73 @@
+<%- include("partials/header.ejs") %>
+
+<div class="container col-xl-10 col-xxl-8 px-4 py-5">
+    <div class="row align-items-center g-lg-5 py-5">
+        <div class="col-lg-7 text-center text-lg-start">
+          <% if (!locals.data && !locals.error) { %>
+            <h1 class="display-4 fw-bold lh-1 text-body-emphasis mb-3">Your Weather, Tailored for Where You Are.</h1>
+            <p class="col-lg-11 fs-4">Simply share your location, and we’ll deliver real-time weather details, and more. <br>Our platform gives you everything you need to plan your day with confidence.</p>
+          <% } else if (locals.data && locals.error === false) { %>
+
+            <div class="card py-5">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col">
+                    <h3 class="card-title"><%= data.name %></h3>
+                    <h6 class="card-subtitle mb-2 text-body-secondary"><%= data.region %></h6>
+                    <h6 class="card-subtitle mb-2 text-body-secondary"><%= data.country %></h6>
+                    <h6 class="mt-3 text-body-secondary fw-light">Local time: <%= data.local_time %></h6>
+                    <h6 class="text-body-secondary fw-light">Last Updated at <%= data.last_updated %></h6>
+                  </div>
+                  <div class="col">
+                    <div class="container text-center">
+                    <div class="row">
+                      <div class="col-4">
+                        <img src="<%= data.condition_icon %>" alt="<%= data.condition_text %>">
+                      </div>
+                      <div class="col-8 align-self-center">
+                        <h5 class="card-title text-end"><%= data.condition_text %></h5>
+                      </div>
+                    </div>
+                    </div>
+                    <div class="text-end">
+                      <h1 class="card-title"><%= data.temp_c %>°C / <small><small><%= data.temp_f %>°F</small></small></h1>
+                      <h6 class="card-title text-body-secondary fw-normal">Feels like <%= data.feelslike_c %>°C / <small><%= data.feelslike_f %>°F</small></h6>
+                    </div>
+                  </div>
+                  <div class="row mt-3">
+                    <div class="col-7">Wind Speed: <%= data.windspeed %> km/h</div>
+                    <div class="col-5">Humidity: <%= data.humidity %>%</div>
+                  </div>
+                  <div class="row">
+                    <div class="col-7">Wind Direction: <%= data.wind_dir %></div>
+                    <div class="col-5">Precipitation: <%= data.precipitation %>mm</div>
+                  </div>
+                </div>
+                
+                <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a> -->
+              </div>
+            </div>
+            <% } else if (locals.error === true ) { %>
+              <div class="alert alert-danger py-5 my-5" role="alert">
+                <p class="h2">Error ;(</p> <br>
+                <%= msg[0] %>: <%= msg[1] %><br><br>
+                <p class="h6">Please try again!</p>
+              </div>
+          <% } %>
+        </div>
+      
+        <div class="col-md-10 mx-auto col-lg-5">
+          <form class="p-4 p-md-8" method="POST" action="/submit">
+            <div class="form-floating mb-3">
+              <input name="location" type="text" class="form-control" id="floatingInput" placeholder="London">
+              <label for="floatingInput">Location</label>
+            </div>
+            <button class="w-100 btn btn-lg btn-dark" type="submit">Check Weather</button>
+          </form>
+        </div>
+    </div>
+</div>
+
+<%- include("partials/footer.ejs") %>
